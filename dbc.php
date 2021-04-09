@@ -11,8 +11,8 @@ function dbConect(){
     */
     // PDO(PHP Data Object)についてはHPにて詳細確認
     try{
-    $dbh = new \PDO($dsn,$user,$pass,[
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+    $dbh = new PDO($dsn,$user,$pass,[
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ]);
     } 
     catch(PDOException $e){
@@ -30,7 +30,7 @@ function getAllBlog(){
     //SQLの実行
     $stmt=$dbh->query($sql);
     //SQLの結果を受け取る
-    $result=$stmt->fetchall(\PDO::FETCH_ASSOC);
+    $result=$stmt->fetchall(PDO::FETCH_ASSOC);
     return $result;
     $dbh=null;
 }
@@ -38,8 +38,8 @@ function getAllBlog(){
 
 // 関数化③カテゴリ名を表示（カテゴリ番号（数字）からカテゴリ名（文字列）に変換）
 function setCategoryName($category){
-    if($category ==='1'){return'ブログ';
-    }elseif($category ==='2'){return'日常';
+    if($category ==='1'){return'日常';
+    }elseif($category ==='2'){return'プログラミング';
     }else{return'その他';
     }
 }
@@ -55,11 +55,11 @@ $dbh=dbConect();
 
 //SQL準備
 $stmt = $dbh->prepare('SELECT*FROM blog Where id=:id');
-$stmt->bindValue(':id',(int)$id,\PDO::PARAM_INT);
+$stmt->bindValue(':id',(int)$id,PDO::PARAM_INT);
 //SQLの実行
 $stmt->execute();
 //SQLの結果を受け取る
-$result=$stmt->fetch(\PDO::FETCH_ASSOC);
+$result=$stmt->fetch(PDO::FETCH_ASSOC);
 
 if(!$result){
     exit('ブログがありません');

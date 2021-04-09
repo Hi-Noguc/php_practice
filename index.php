@@ -1,5 +1,12 @@
 <?php 
+/*
+外部ファイル読み込みについて
+require 読み込み失敗で処理を中止    通例：ロジック系にはrequire_once
+include 読み込み失敗でも処理を継続  通例：処理が続行しても問題ないHTML
+ともに_onceがつくと再読み込みしない
+*/
 require_once('dbc.php');
+
 
 $blogData=getAllBlog();
 ?>
@@ -15,6 +22,7 @@ $blogData=getAllBlog();
 </head>
 <body>
 <h2>ブログ一覧</h2>
+<p><a href="/form.html">新規作成</a></p>
     <table>
         <tr>
             <th>No.</th>
