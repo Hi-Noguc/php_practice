@@ -1,7 +1,6 @@
 <?php 
-ini_set( 'display_errors', 1 );
-ini_set( 'error_reporting', E_ALL );
-require_once('dbc.php');
+
+require_once('blog.php');
 $blogs=$_POST;
 
 if(empty($blogs['title'])){
@@ -20,25 +19,11 @@ if(empty($blogs['publish_status'])){
     exit('公開ステータスは必須です');
 }
 
-$sql='INSERT INTO blog(title,contents,category,publish_status)
-                VALUES(:title,:contents,:category,:publish_status)';
+$blog=new Blog();
+$blog -> blogCreate($blogs);
 
-$dbh=dbConect();
-$dbh->beginTransaction();
 
-try{
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':title',$blogs['title'],PDO::PARAM_STR);
-    $stmt->bindValue(':contents',$blogs['contents'],PDO::PARAM_STR);
-    $stmt->bindValue(':category',$blogs['category'],PDO::PARAM_INT);
-    $stmt->bindValue(':publish_status',$blogs['publish_status'],PDO::PARAM_INT); 
-    $stmt->execute();
-    echo'ブログを投稿しました';
-    } 
-    catch(PDOException $e)
-    {
-        $dbh->rollBack();
-    exit($e);
-    }
+
+
 
 ?>

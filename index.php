@@ -5,10 +5,12 @@ require 読み込み失敗で処理を中止    通例：ロジック系にはre
 include 読み込み失敗でも処理を継続  通例：処理が続行しても問題ないHTML
 ともに_onceがつくと再読み込みしない
 */
-require_once('dbc.php');
+require_once('blog.php');
+ini_set( 'display_errors', "On" );
 
+$blog=new Blog();
 
-$blogData=getAllBlog();
+$blogData=$blog->getAll();
 ?>
 
 <!--VSCODEの場合先頭に「！」＋TABでhtml書式呼び起こし可能  -->
@@ -35,7 +37,7 @@ $blogData=getAllBlog();
         <tr>
             <td><?php echo $column['id']?></td>
             <td><?php echo $column['title']?></td>
-            <td><?php echo setCategoryName($column['category'])?></td>
+            <td><?php echo $blog->setCategoryName($column['category'])?></td>
             <td><a href="/detail.php?id=<?php echo $column['id']?>">詳細</a></td>
         </tr>
         <?php endforeach;?>
