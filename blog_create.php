@@ -11,3 +11,4 @@ $blog->blogCreate($blogs);
 
 
 ?>
+    <p><a href ="/">戻る</a></p>

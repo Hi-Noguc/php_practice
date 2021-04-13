@@ -1,5 +1,5 @@
 <?php
-
+require_once('env.php');
 Class Dbc{
 
     protected $table_name;
@@ -9,9 +9,11 @@ Class Dbc{
 
     // 関数化①データベース接続（引数なしで接続結果をリターン）
     protected function dbConect(){
-        $dsn ='mysql:host=localhost;dbname=test_app;charset=utf8';
-        $user='blog_user';
-        $pass='testpass';
+        $host=DB_HOST;//定数の場合は""不要
+        $dbname=DB_NAME;
+        $user=DB_USER;
+        $pass=DB_PASS;
+        $dsn ="mysql:host=$host;dbname=$dbname;charset=utf8";
 
         /* エラーチェック (DBのエラーチェックにはtry~catchを使う)
         try{通常処理}catch(){エラー時の処理}
@@ -67,7 +69,22 @@ Class Dbc{
     return $result;
     }
 
-
+    public function delete($id){
+        if(empty($id)){
+            exit('IDが不正です');
+        }
+    
+        $dbh=$this->dbConect();
+    
+        //SQL準備
+        $stmt = $dbh->prepare("DELETE FROM $this->table_name Where id=:id");
+        $stmt->bindValue(':id',(int)$id,PDO::PARAM_INT);
+        //SQLの実行
+        $stmt->execute();
+        echo'ブログを削除しました';
+        
+        return $result;
+    }
         
 }
 ?>
